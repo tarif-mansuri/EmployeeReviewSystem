@@ -1,5 +1,18 @@
 const empModel = require('../Models/employee');
 const isLoggedIn = require('../UtilFunctions/util');
+
+module.exports.logOut = async (req, res)=>{
+    const {email, password} = req.body;
+    {
+        res.cookie('user_id', '-1');
+        return res.json.status(200);
+        res.json({
+            message: 'Logged out successfully'
+        });
+        return res;
+    }
+}
+
 module.exports.login = async (req, res)=>{
     const {email, password} = req.body;
     const user = await empModel.findOne({email});
@@ -17,7 +30,7 @@ module.exports.login = async (req, res)=>{
             });
             return res;
         }else{
-            res.cookie('user_id', user._id);
+            res.cookie('user_id', user._id.toString());
             res.status(200);
             res.json({
                 mesaage:'Logged in successfully'
@@ -52,7 +65,7 @@ module.exports.createEmployee = async (req, res)=>{
 }
 
 module.exports.getEmployees = async (req, res)=>{
-    const empList =await empModel.find();
+    const empList =await empModel.find().populate('reviews');
         res.status(200);
         res.json({
             message:"Employees fetched successfully",
@@ -63,7 +76,7 @@ module.exports.getEmployees = async (req, res)=>{
 
 module.exports.getEmployee = async (req, res)=>{
     const id = req.params.id;
-    const emp =await empModel.findById(id);
+    const emp =await empModel.findById(id).populate('reviews');
     if(emp==null){
         res.status(404);
         res.json({
@@ -81,7 +94,10 @@ module.exports.getEmployee = async (req, res)=>{
 }
 
 module.exports.deleteEmployee = async (req, res)=>{
-    if(isLoggedIn(!req.params.id)){
+    const cockie = req.headers.cookie?.split('=')[1];
+    const loogedIn =await isLoggedIn(cockie);
+    if(!loogedIn){
+        console.log(loogedIn);
         res.status(403);
         res.json({
             message:'Please log in first'
@@ -89,9 +105,16 @@ module.exports.deleteEmployee = async (req, res)=>{
         return res;
     }
     const id = req.params.id;
-    const emp =await empModel.findByIdAndDelete(id);
-    res.status(204);
-    return res;    
+    if(id==='6539710dacaabb64b708501a'){
+        return res.json({
+            messagge:'Company Owner can not be deleted'
+        })
+    }
+    console.log(id);
+    await empModel.findByIdAndDelete(id);
+    return res.json({
+        messagge:'Employee Deleted successfully'
+    })    
 }
 
 module.exports.updateEmployee = async (req, res)=>{

@@ -1,8 +1,10 @@
 const empModel = require('../Models/employee')
 
-const isLoggedIn = (id)=>{
-    const user = empModel.findById(id);
-    if(user==null){
+const isLoggedIn =async(id)=>{
+    //console.log(id);
+    const user =await empModel.findById(id);
+    console.log(`Logged in User ${user.email}`)
+    if(user===null){
         return false;
     }else{
         return true;

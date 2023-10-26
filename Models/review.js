@@ -17,6 +17,10 @@ const reviewSchema = new Schema({
     employee:{
         type: Schema.Types.ObjectId,
         ref:"employee"
+    },
+    reviewer:{
+        type: Schema.Types.ObjectId,
+        ref:"employee"
     }
     
 },{
