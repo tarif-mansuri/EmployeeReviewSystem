@@ -10,6 +10,8 @@ empRoute.put('/:id', empCtr.updateEmployee);
 empRoute.post('/login', empCtr.login);
 empRoute.post('/logout', empCtr.logOut);
 
-
+//Get All Reviews of a particular Employee
+empRoute.get('/:id/reviews', empCtr.getAllReviews);
+empRoute.post('/feedback', empCtr.createFeedback);
 
 module.exports = empRoute;

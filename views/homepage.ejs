@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="homepage.css">
     <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
-    <h1>Welcome to homepage</h1>
+    <h1>Welcome to the Homepage of Employee Review System Application</h1>
+    <div class="container">
+        <div id="login">
+            <h3> <Label>Enter your credentials to login</Label></h3>
+            <form action="/employees/login" method="POST">
+                <input type="email" name="email" placeholder="Enter your email...">
+                <input type="password" name="password" placeholder="Enter your password...">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <!-- <div id="register">
+            <h3> <Label>Visiting first time ? Register here </Label></h3>
+            <form action="/employees/register" method="POST">
+                <input type="email" name="email" placeholder="Enter your email...">
+                <input type="password" name="password" placeholder="Enter your password...">
+                <input type="text" name="name" placeholder="Enter your full name...">
+                <input type="submit" value="Register">
+            </form>
+        </div> -->
+    </div>
 </body>
 </html>
